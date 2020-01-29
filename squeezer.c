@@ -22,6 +22,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
 #define OK 0
 #define KO 1
 #define BUFFER_SIZE 1024 /* has to be at least (LIMIT_DICTIONARY * 2) */
@@ -181,14 +182,14 @@ int f_encode_file(const char *input_path, const char *output_path, double *score
                 if ((index += 2) == read_bytes) {
                   /* woops! We just jumped the latest entry; we should mark it as last entry of the previous previous buffer, so we'll push it into the
                    * head of the next buffer */
-                  last_entry_previous_buffer = output_buffer[(read_bytes - 1)];
+                  last_entry_previous_buffer = input_buffer[(read_bytes - 1)];
                 }
               } else {
                 output_buffer[write_bytes++] = input_buffer[index - 1];
                 if ((++index) == read_bytes) {
                   /* woops! We just jumped the latest entry; we should mark it as last entry of the previous buffer, so we'll push it into the head of 
                    * the next buffer */
-                  last_entry_previous_buffer = output_buffer[(read_bytes - 1)];
+                  last_entry_previous_buffer = input_buffer[(read_bytes - 1)];
                 }
               }
             }
